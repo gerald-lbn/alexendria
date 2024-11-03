@@ -1,6 +1,34 @@
-import { pgTable, serial, integer } from 'drizzle-orm/pg-core';
+import { relations } from 'drizzle-orm';
+import { integer, pgTable, serial, text, timestamp, varchar } from 'drizzle-orm/pg-core';
 
-export const user = pgTable('user', {
+export const users = pgTable('users', {
 	id: serial('id').primaryKey(),
-	age: integer('age')
+	email: varchar('email').notNull(),
+	password: varchar('password').notNull()
 });
+
+export const sessions = pgTable('sessions', {
+	id: text('id').primaryKey(),
+	userId: integer('user_id')
+		.notNull()
+		.references(() => users.id, {
+			onDelete: 'cascade'
+		}),
+	expiresAt: timestamp('expires_at', {
+		withTimezone: true,
+		mode: 'date'
+	}).notNull()
+});
+
+// User relationships
+export const userRelations = relations(users, ({ many }) => ({
+	sessions: many(sessions)
+}));
+
+// Session relationships
+export const sessionRelations = relations(sessions, ({ one }) => ({
+	user: one(users, {
+		fields: [sessions.userId],
+		references: [users.id]
+	})
+}));
