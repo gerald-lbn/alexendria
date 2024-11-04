@@ -1,11 +1,12 @@
 import { relations } from 'drizzle-orm';
-import { integer, pgTable, serial, text, timestamp, varchar } from 'drizzle-orm/pg-core';
+import { boolean, integer, pgTable, serial, text, timestamp, varchar } from 'drizzle-orm/pg-core';
 
 export const users = pgTable('users', {
 	id: serial('id').primaryKey(),
 	fullname: varchar('fullname').notNull(),
 	email: varchar('email').notNull().unique(),
-	password: varchar('password').notNull()
+	password: varchar('password').notNull(),
+	registeredTOTP: boolean('registered_totp').notNull().default(false)
 });
 
 export const sessions = pgTable('sessions', {
