@@ -20,51 +20,49 @@
 	};
 </script>
 
-<div class="mx-auto flex h-svh max-w-sm flex-col justify-center space-y-6 p-4">
-	<Heading heading="Créer un compte" subheading="Créez un compte pour continuer" />
+<Heading heading="Créer un compte" subheading="Créez un compte pour continuer" />
 
-	<form method="post" class="grid space-y-4" use:enhance={submit}>
-		<div class="grid gap-1">
-			<Label for="fullname">Nom complet</Label>
-			<Input required type="text" id="fullname" name="fullname" placeholder="John Doe" />
-			{#if form?.errors?.fullname}
-				<p class="text-sm text-destructive">{form.errors.fullname}</p>
-			{/if}
-		</div>
+<form method="post" class="grid space-y-4" use:enhance={submit}>
+	<div class="grid gap-1">
+		<Label for="fullname">Nom complet</Label>
+		<Input required type="text" id="fullname" name="fullname" placeholder="John Doe" />
+		{#if form?.errors?.fullname}
+			<p class="text-sm text-destructive">{form.errors.fullname}</p>
+		{/if}
+	</div>
 
-		<div class="grid gap-1">
-			<Label for="email">Email</Label>
-			<Input required type="email" id="email" name="email" placeholder="john.doe@company.com" />
-			{#if form?.errors?.email}
-				<p class="text-sm text-destructive">{form.errors.email}</p>
-			{/if}
-		</div>
+	<div class="grid gap-1">
+		<Label for="email">Email</Label>
+		<Input required type="email" id="email" name="email" placeholder="john.doe@company.com" />
+		{#if form?.errors?.email}
+			<p class="text-sm text-destructive">{form.errors.email}</p>
+		{/if}
+	</div>
 
-		<div class="grid gap-1">
-			<Label for="password">Mot de passe</Label>
-			<Input
-				required
-				type="password"
-				id="password"
-				name="password"
-				placeholder="••••••••"
-				minlength={8}
-			/>
-			{#if form?.errors?.password}
-				<p class="text-sm text-destructive">{form.errors.password}</p>
-			{/if}
-		</div>
+	<div class="grid gap-1">
+		<Label for="password">Mot de passe</Label>
+		<Input
+			required
+			type="password"
+			id="password"
+			name="password"
+			placeholder="••••••••"
+			minlength={8}
+		/>
+		{#if form?.errors?.password}
+			<p class="text-sm text-destructive">{form.errors.password}</p>
+		{/if}
+	</div>
 
-		<Button type="submit" disabled={processing}>
-			{#if processing}
-				Chargement...
-			{:else}
-				Créer un compte
-			{/if}
-		</Button>
-	</form>
+	<Button type="submit" disabled={processing}>
+		{#if processing}
+			Chargement...
+		{:else}
+			Créer un compte
+		{/if}
+	</Button>
+</form>
 
-	<p class="text-center text-sm text-muted-foreground">
-		Déjà un compte? <Button href="/login" variant="link" class="p-0 underline">Se connecter</Button>
-	</p>
-</div>
+<p class="text-center text-sm text-muted-foreground">
+	Déjà un compte? <Button href="/login" variant="link" class="p-0 underline">Se connecter</Button>
+</p>
