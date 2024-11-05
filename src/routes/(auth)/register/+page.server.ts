@@ -9,7 +9,14 @@ const bucket = new RefillingTokenBucket<string>(3, 10);
 
 export const load = ({ locals }) => {
 	// Check if user is already logged in
-	if (locals.session) throw redirect(302, '/admin');
+	if (locals.session && locals.user) {
+		// Check if the user has TOTP enabled
+		if (!locals.user.registeredTOTP) {
+			throw redirect(302, '/2fa/setup');
+		}
+
+		throw redirect(302, '/admin');
+	}
 };
 
 const register = async ({ cookies, getClientAddress, request }: RequestEvent) => {
