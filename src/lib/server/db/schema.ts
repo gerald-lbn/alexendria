@@ -22,15 +22,34 @@ export const sessions = pgTable('sessions', {
 	}).notNull()
 });
 
+export const totpKeys = pgTable('totp_keys', {
+	id: serial('id').primaryKey(),
+	userId: integer('user_id')
+		.references(() => users.id, {
+			onDelete: 'cascade'
+		})
+		.notNull(),
+	key: text('key').notNull()
+});
+
 // User relationships
 export const userRelations = relations(users, ({ many }) => ({
-	sessions: many(sessions)
+	sessions: many(sessions),
+	totpKeys: many(totpKeys)
 }));
 
 // Session relationships
 export const sessionRelations = relations(sessions, ({ one }) => ({
 	user: one(users, {
 		fields: [sessions.userId],
+		references: [users.id]
+	})
+}));
+
+// TOTP Key relationships
+export const totpKeyRelations = relations(totpKeys, ({ one }) => ({
+	user: one(users, {
+		fields: [totpKeys.userId],
 		references: [users.id]
 	})
 }));
