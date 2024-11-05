@@ -1,5 +1,6 @@
 import { db } from '$lib/server/db';
 import { users } from '$lib/server/db/schema';
+import type { User } from '$lib/server/db/types';
 import { hashPassword } from '$lib/server/password';
 import { eq } from 'drizzle-orm';
 
@@ -20,3 +21,12 @@ export const createUser = async (fullname: string, email: string, password: stri
 		})
 		.returning();
 };
+
+export const markUserAsRegisteredTOTP = async (userId: User['id']) =>
+	db
+		.update(users)
+		.set({
+			registeredTOTP: true
+		})
+		.where(eq(users.id, userId))
+		.returning();
