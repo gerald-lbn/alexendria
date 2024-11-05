@@ -2,15 +2,17 @@ import { hash, verify } from '@node-rs/argon2';
 import { sha1 } from '@oslojs/crypto/sha1';
 import { encodeHexLowerCase } from '@oslojs/encoding';
 
-export const hashPassword = async (password: string) =>
-	hash(password, {
-		memoryCost: 19456,
-		timeCost: 2,
-		outputLen: 32,
-		parallelism: 1
-	});
+const options = {
+	memoryCost: 19456,
+	timeCost: 2,
+	outputLen: 32,
+	parallelism: 1
+};
 
-export const verifyPassword = async (hash: string, password: string) => verify(hash, password);
+export const hashPassword = async (password: string) => hash(password, options);
+
+export const verifyPassword = async (hash: string, password: string) =>
+	verify(hash, password, options);
 
 /**
  * Check password strength using the Pwned Passwords API.
